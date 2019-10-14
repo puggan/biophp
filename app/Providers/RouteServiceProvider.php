@@ -1,4 +1,6 @@
 <?php
+/** @noinspection UnusedFunctionResultInspection */
+declare(strict_types=1);
 
 namespace App\Providers;
 
@@ -6,21 +8,73 @@ use App\Http\Controllers\ApiController;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * Class RouteServiceProvider
+ * @package App\Providers
+ * Configure all routes
+ */
 class RouteServiceProvider extends ServiceProvider
 {
-    public function map()
+    /**
+     * Configure all routes
+     * @see ApiController
+     */
+    public function map(): void
     {
-        Route::prefix('/api')->group(
+        Route::prefix('api')->group(
             static function () {
-                /** @see \App\Http\Controllers\ApiController::cinemas() */
+                //<editor-fold desc="Public Entities">
+                /** @see ApiController::cinemas() */
                 Route::get('cinemas', ApiController::class . '@cinemas');
                 Route::get('cinema/all', ApiController::class . '@cinemas');
 
-                /** @see \App\Http\Controllers\ApiController::cinema() */
+                /** @see ApiController::cinema() */
                 Route::get('cinema/{id}', ApiController::class . '@cinema');
+
+                /** @see ApiController::auditoriums() */
+                Route::get('auditoriums', ApiController::class . '@auditoriums');
+                Route::get('auditorium/all', ApiController::class . '@auditoriums');
+
+                /** @see ApiController::auditorium() */
+                Route::get('auditorium/{id}', ApiController::class . '@auditorium');
+
+                /** @see ApiController::movies() */
+                Route::get('movies', ApiController::class . '@movies');
+                Route::get('movie/all', ApiController::class . '@movies');
+
+                /** @see ApiController::movie() */
+                Route::get('movie/{id}', ApiController::class . '@movie');
+
+                /** @see ApiController::shows() */
+                Route::get('shows', ApiController::class . '@shows');
+                Route::get('show/all', ApiController::class . '@shows');
+
+                /** @see ApiController::show() */
+                Route::get('show/{id}', ApiController::class . '@show');
+
+                /** @see ApiController::all() */
+                Route::get('all', ApiController::class . '@all');
+                //</editor-fold>
+
+                //<editor-fold desc="Actions">
+                /** @see ApiController::login() */
+                Route::post('login', ApiController::class . '@login');
+
+                /** @see ApiController::register() */
+                Route::post('register', ApiController::class . '@register');
+
+                /** @see ApiController::book() */
+                Route::post('book', ApiController::class . '@book');
+                //</editor-fold>
             }
         );
 
-        Route::get('/', static function() {return '<p>See <a href="/api/cinemas">/api/cinemas</a> as an exemple</p>';});
+        Route::get(
+            '/',
+            static function () {
+                /** @noinspection HtmlUnknownTarget */
+                return '<p>See <a href="/api/cinemas">/api/cinemas</a> as an example</p>';
+            }
+        );
     }
 }
