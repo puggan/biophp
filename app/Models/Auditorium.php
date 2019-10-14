@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection as C;
 
 /**
  * Class Auditorium
@@ -12,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string name
  * @property int seats_total
  * @property Cinema cinema
+ * @property C|Show[] shows
  */
 class Auditorium extends Model
 {
@@ -26,5 +29,13 @@ class Auditorium extends Model
     public function cinema(): BelongsTo
     {
         return $this->belongsTo(Cinema::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function shows(): HasMany
+    {
+        return $this->hasMany(Show::class);
     }
 }

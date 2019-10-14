@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -15,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon reserved_at
  * @property User user
  * @property Show show
+ * @property Payment payment
  */
 class Reservation extends Model
 {
@@ -35,5 +37,13 @@ class Reservation extends Model
     public function show(): BelongsTo
     {
         return $this->belongsTo(Show::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function payment(): HasOne
+    {
+        return $this->hasOne(Payment::class);
     }
 }

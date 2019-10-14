@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection as C;
 
 /**
  * Class Show
@@ -16,6 +18,7 @@ use Illuminate\Support\Carbon;
  * @property int seat_price
  * @property Auditorium auditorium
  * @property Movie movie
+ * @property C|Reservation[] reservations
  */
 class Show extends Model
 {
@@ -36,5 +39,13 @@ class Show extends Model
     public function movie(): BelongsTo
     {
         return $this->belongsTo(Movie::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
     }
 }

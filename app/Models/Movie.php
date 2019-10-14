@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection as C;
 
 /**
  * Class Movie
@@ -16,9 +18,18 @@ use Illuminate\Support\Carbon;
  * @property string description
  * @property string language
  * @property Carbon premiere
+ * @property C|Show[] shows
  */
 class Movie extends Model
 {
     protected $fillable = ['title', 'category', 'length', 'age_limit', 'description', 'language', 'premiere'];
     protected $casts = ['premiere' => 'datetime'];
+
+    /**
+     * @return HasMany
+     */
+    public function shows(): HasMany
+    {
+        return $this->hasMany(Show::class);
+    }
 }
