@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -19,4 +20,20 @@ class Reservation extends Model
 {
     protected $fillable = ['seat_count', 'first_seat_number', 'reserved_at'];
     protected $casts = ['reserved_at' => 'datetime'];
+
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function show(): BelongsTo
+    {
+        return $this->belongsTo(Show::class);
+    }
 }

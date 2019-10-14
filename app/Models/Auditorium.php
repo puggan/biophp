@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Auditorium
@@ -18,4 +19,12 @@ class Auditorium extends Model
 
     // override default: auditoria
     protected $table = 'auditoriums';
+
+    /**
+     * @return BelongsTo
+     */
+    public function cinema(): BelongsTo
+    {
+        return $this->belongsTo(Cinema::class);
+    }
 }

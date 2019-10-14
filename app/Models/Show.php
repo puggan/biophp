@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 /**
@@ -20,4 +21,20 @@ class Show extends Model
 {
     protected $fillable = ['start_at', 'spoken_language', 'subtitle_language', 'seat_price'];
     protected $casts = ['start_at' => 'datetime'];
+
+    /**
+     * @return BelongsTo
+     */
+    public function auditorium(): BelongsTo
+    {
+        return $this->belongsTo(Auditorium::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function movie(): BelongsTo
+    {
+        return $this->belongsTo(Movie::class);
+    }
 }
