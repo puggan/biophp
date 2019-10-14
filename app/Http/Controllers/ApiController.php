@@ -186,6 +186,10 @@ class ApiController extends Controller
             throw new \RuntimeException('field token is required');
         }
 
+        if($seats < 1) {
+            throw new \RuntimeException('invalid seats, required at least one');
+        }
+
         // FIXME: use a secure hash/token
         [$userId, $emailHash] = explode(':', $token, 2) + ['',''];
         /** @var User|null $user */
