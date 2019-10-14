@@ -14,7 +14,9 @@ use Illuminate\Support\Carbon;
  * @property int seat_count
  * @property int first_seat_number
  * @property Carbon reserved_at
+ * @property int user_id
  * @property User user
+ * @property int show_id
  * @property Show show
  * @property Payment payment
  */

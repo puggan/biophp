@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon payed_at
  * @property int amount
  * @property string refernece
+ * @property int reservation_id
  * @property Reservation reservation
  */
 class Payment extends Model

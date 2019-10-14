@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string servise
  * @property string identyfier
  * @property string secret
+ * @property int user_id
  * @property User user
  */
 class Authentication extends Model

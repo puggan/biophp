@@ -13,6 +13,7 @@ use Illuminate\Support\Collection as C;
  * @property int id
  * @property string name
  * @property int seats_total
+ * @property int cinema_id
  * @property Cinema cinema
  * @property C|Show[] shows
  */

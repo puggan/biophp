@@ -16,7 +16,9 @@ use Illuminate\Support\Collection as C;
  * @property string spoken_language
  * @property string subtitle_language
  * @property int seat_price
+ * @property int auditorium_id
  * @property Auditorium auditorium
+ * @property int movie_id
  * @property Movie movie
  * @property C|Reservation[] reservations
  */
