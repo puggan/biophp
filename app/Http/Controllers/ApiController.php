@@ -24,13 +24,13 @@ class ApiController extends Controller
     /**
      * @return array keys: auditoriums, cinemas, movies, shows,
      */
-    public function all(): array
+    public static function all(): array
     {
         return [
-            'auditoriums' => $this->auditoriums(),
-            'cinemas' => $this->cinemas(),
-            'movies' => $this->movies(),
-            'shows' => $this->shows(),
+            'auditoriums' => self::auditoriums(),
+            'cinemas' => self::cinemas(),
+            'movies' => self::movies(),
+            'shows' => self::shows(),
         ];
     }
 
@@ -38,7 +38,7 @@ class ApiController extends Controller
      * @param int $id
      * @return null|Cinema
      */
-    public function cinema(int $id): ?Cinema
+    public static function cinema(int $id): ?Cinema
     {
         /** @var Cinema|null $cinema */
         $cinema = Cinema::query()->find($id);
@@ -48,7 +48,7 @@ class ApiController extends Controller
     /**
      * @return C|Cinema[]
      */
-    public function cinemas(): C
+    public static function cinemas(): C
     {
         return Cinema::all();
     }
@@ -57,7 +57,7 @@ class ApiController extends Controller
      * @param int $id
      * @return null|Auditorium
      */
-    public function auditorium(int $id): ?Auditorium
+    public static function auditorium(int $id): ?Auditorium
     {
         /** @var Auditorium|null $auditorium */
         $auditorium = Auditorium::query()->find($id);
@@ -67,7 +67,7 @@ class ApiController extends Controller
     /**
      * @return C|Auditorium[]
      */
-    public function auditoriums(): C
+    public static function auditoriums(): C
     {
         return Auditorium::all();
     }
@@ -76,7 +76,7 @@ class ApiController extends Controller
      * @param int $id
      * @return null|Movie
      */
-    public function movie(int $id): ?Movie
+    public static function movie(int $id): ?Movie
     {
         /** @var Movie|null $movie */
         $movie = Movie::query()->find($id);
@@ -86,7 +86,7 @@ class ApiController extends Controller
     /**
      * @return C|Movie[]
      */
-    public function movies(): C
+    public static function movies(): C
     {
         return Movie::all();
     }
@@ -95,7 +95,7 @@ class ApiController extends Controller
      * @param int $id
      * @return null|Show
      */
-    public function show(int $id): ?Show
+    public static function show(int $id): ?Show
     {
         /** @var Show|null $show */
         $show = Show::query()->find($id);
@@ -105,7 +105,7 @@ class ApiController extends Controller
     /**
      * @return C|Show[]
      */
-    public function shows(): C
+    public static function shows(): C
     {
         return Show::all();
     }
@@ -117,7 +117,7 @@ class ApiController extends Controller
      * @param Request $request
      * @return string
      */
-    public function login(Request $request): string
+    public static function login(Request $request): string
     {
         $email = (string) ($request->email ?? '');
         $password = (string) ($request->password ?? '');
@@ -149,7 +149,7 @@ class ApiController extends Controller
      * @param Request $request
      * @return string
      */
-    public function register(Request $request): string
+    public static function register(Request $request): string
     {
         $email = (string) ($request->email ?? '');
         $password = (string) ($request->password ?? '');
@@ -176,7 +176,7 @@ class ApiController extends Controller
      * @return Reservation
      * @throws \RuntimeException
      */
-    public function book(Request $request): Reservation
+    public static function book(Request $request): Reservation
     {
         $token = (string) ($request->token ?? '');
         $showId = (int) ($request->show_id ?? 0);
