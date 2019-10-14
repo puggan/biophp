@@ -36,4 +36,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reservation::class);
     }
+
+    /**
+     * Register a new user
+     * @param string $email
+     * @return static
+     */
+    public static function register(string $email): self
+    {
+        $user = new User();
+        $user->email = $email;
+        $user->save();
+        return $user;
+    }
 }

@@ -48,4 +48,34 @@ class Reservation extends Model
     {
         return $this->hasOne(Payment::class);
     }
+
+    /**
+     * Book a reservation on a show, for a user
+     * @param Show $show
+     * @param User $user
+     * @param int $seatCount
+     * @return static
+     * @throws \RuntimeException
+     */
+    public static function book(Show $show, User $user, int $seatCount): self
+    {
+        $seatsTaken = $show->seatsTaken();
+        $seatsLeft = $show->auditorium->seats_total - $seatsTaken;
+        if($seatsLeft < $seatCount) {
+            throw new \RuntimeException('seats taken, only ' . $seatsLeft . ' seats left');
+        }
+
+        $reservation = new self();
+        $reservation->show_id = $show->id;
+        $reservation->user_id = $user->id;
+        $reservation->seat_count = $seatCount;
+        $reservation->first_seat_number = 1 + $seatsTaken;
+        try {
+            $reservation->reserved_at = new Carbon();
+        } catch (\Exception $exception) {
+            throw new \RuntimeException('failed to get current time: ' . $exception->getMessage(), $exception->getCode(), $exception);
+        }
+        $reservation->save();
+        return $reservation;
+    }
 }

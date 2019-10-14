@@ -50,4 +50,27 @@ class Show extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    /**
+     * Number of seats booked
+     * @return int
+     */
+    public function seatsTaken(): int
+    {
+        /// TODO: replace with sum-query
+        $seats = 0;
+        foreach($this->reservations as $reservation) {
+            $seats += $reservation->seat_count;
+        }
+        return $seats;
+    }
+
+    /**
+     * Number of seats left
+     * @return int
+     */
+    public function seatsLeft(): int
+    {
+        return $this->auditorium->seats_total - $this->seatsTaken();
+    }
 }
