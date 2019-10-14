@@ -15,4 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class Auditorium extends Model
 {
     protected $fillable = ['name', 'seats_total'];
+
+    // override default: auditoria
+    protected $table = 'auditoriums';
 }
