@@ -24,6 +24,7 @@ class Movie extends Model
 {
     protected $fillable = ['title', 'category', 'length', 'age_limit', 'description', 'language', 'premiere'];
     protected $casts = ['premiere' => 'datetime'];
+    public $timestamps = false;
 
     /**
      * @return HasMany

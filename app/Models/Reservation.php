@@ -24,6 +24,8 @@ class Reservation extends Model
 {
     protected $fillable = ['seat_count', 'first_seat_number', 'reserved_at'];
     protected $casts = ['reserved_at' => 'datetime'];
+    const CREATED_AT = 'reserved_at';
+    const UPDATED_AT = null;
 
     /**
      * @return BelongsTo
@@ -70,11 +72,6 @@ class Reservation extends Model
         $reservation->user_id = $user->id;
         $reservation->seat_count = $seatCount;
         $reservation->first_seat_number = 1 + $seatsTaken;
-        try {
-            $reservation->reserved_at = new Carbon();
-        } catch (\Exception $exception) {
-            throw new \RuntimeException('failed to get current time: ' . $exception->getMessage(), $exception->getCode(), $exception);
-        }
         $reservation->save();
         return $reservation;
     }

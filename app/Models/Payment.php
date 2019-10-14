@@ -20,6 +20,8 @@ class Payment extends Model
 {
     protected $fillable = ['payed_at', 'amount', 'refernece'];
     protected $casts = ['payed_at' => 'datetime'];
+    const CREATED_AT = 'payed_at';
+    const UPDATED_AT = null;
 
     /**
      * @return BelongsTo

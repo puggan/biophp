@@ -20,6 +20,7 @@ use Illuminate\Support\Collection as C;
 class Auditorium extends Model
 {
     protected $fillable = ['name', 'seats_total'];
+    public $timestamps = false;
 
     // override default: auditoria
     protected $table = 'auditoriums';

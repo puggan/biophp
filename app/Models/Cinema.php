@@ -17,6 +17,7 @@ use Illuminate\Support\Collection as C;
 class Cinema extends Model
 {
     protected $fillable = ['name', 'location'];
+    public $timestamps = false;
 
     /**
      * @return HasMany

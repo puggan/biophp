@@ -19,6 +19,7 @@ class Authentication extends Model
 {
     protected $fillable = ['servise', 'identyfier'];
     protected $hidden = ['secret'];
+    public $timestamps = false;
 
     /**
      * @return BelongsTo

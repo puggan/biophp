@@ -20,6 +20,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = ['email'];
+    public $timestamps = false;
 
     /**
      * @return HasMany

@@ -26,6 +26,7 @@ class Show extends Model
 {
     protected $fillable = ['start_at', 'spoken_language', 'subtitle_language', 'seat_price'];
     protected $casts = ['start_at' => 'datetime'];
+    public $timestamps = false;
 
     /**
      * @return BelongsTo
