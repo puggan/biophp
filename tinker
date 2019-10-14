@@ -1,0 +1,63 @@
+#!/usr/bin/env php
+<?php
+
+//<editor-fold desc="Tinker functions">
+// Models
+use Illuminate\Contracts\Console\Kernel;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+function auditorium($id = 1) { return \App\Models\Auditorium::find($id); }
+function authentication($id = 1) { return \App\Models\Authentication::find($id); }
+function cinema($id = 1) { return \App\Models\Cinema::find($id); }
+function movie($id = 1) { return \App\Models\Movie::find($id); }
+function payment($id = 1) { return \App\Models\Payment::find($id); }
+function reservation($id = 1) { return \App\Models\Reservation::find($id); }
+function show($id = 1) { return \App\Models\Show::find($id); }
+function user($id = 1) { return \App\Models\User::find($id); }
+
+function sql($sql)
+{
+    list($first_word) = explode(" ", trim($sql));
+    switch(strtoupper($first_word))
+    {
+        case 'UPDATE':
+            return \DB::update( \DB::raw($sql));
+        case 'DELETE':
+            return \DB::delete( \DB::raw($sql));
+        case 'INSERT':
+            return \DB::insert( \DB::raw($sql));
+        default:
+            return \DB::select( \DB::raw($sql));
+    }
+}
+//</editor-fold>
+
+//<editor-fold desc="Artisan Header">
+define('LARAVEL_START', microtime(true));
+
+require __DIR__.'/vendor/autoload.php';
+
+/** @noinspection UsingInclusionOnceReturnValueInspection */
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+$kernel = $app->make(Kernel::class);
+//</editor-fold>
+
+//<editor-fold desc="Modifed content from artisan">
+$tinker_argv = [$argv[0], 'tinker'];
+if(isset($argv[2])) {
+    $tinker_argv = array_merge($tinker_argv, array_slice($argv, 2));
+}
+
+$input = new ArgvInput($tinker_argv);
+$output = new ConsoleOutput;
+$output->setVerbosity(100);
+$status = $kernel->handle($input, $output);
+//</editor-fold>
+
+//<editor-fold desc="Artisan Footer">
+$kernel->terminate($input, $status);
+
+exit($status);
+//</editor-fold>
