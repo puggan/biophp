@@ -146,6 +146,32 @@ class ApiController extends Controller
 
     //<editor-fold desc="Actions">
     /**
+     * @param Request $request
+     * @return string
+     * @throws HttpException
+     */
+    public static function register(Request $request): string
+    {
+        $email = (string) ($request->email ?? '');
+        $password = (string) ($request->password ?? '');
+        if (empty($email)) {
+            throw new HttpException(400, 'field email is required');
+        }
+        if (empty($password)) {
+            throw new HttpException(400, 'field password is required');
+        }
+        $userCount = User::query()->where('email', '=', $email)->get()->count();
+        if ($userCount > 0) {
+            throw new HttpException(409, 'email already in use');
+        }
+
+        $user = User::register($email);
+
+        // FIXME: use a secure hash/token
+        return $user->id . ':' . md5($user->email);
+    }
+
+    /**
      * Login, and get a token as prof of authentication
      * @param Request $request
      * @return string
@@ -174,32 +200,6 @@ class ApiController extends Controller
 
         /** @var User $user */
         $user = $users[0];
-
-        // FIXME: use a secure hash/token
-        return $user->id . ':' . md5($user->email);
-    }
-
-    /**
-     * @param Request $request
-     * @return string
-     * @throws HttpException
-     */
-    public static function register(Request $request): string
-    {
-        $email = (string) ($request->email ?? '');
-        $password = (string) ($request->password ?? '');
-        if (empty($email)) {
-            throw new HttpException(400, 'field email is required');
-        }
-        if (empty($password)) {
-            throw new HttpException(400, 'field password is required');
-        }
-        $userCount = User::query()->where('email', '=', $email)->get()->count();
-        if ($userCount > 0) {
-            throw new HttpException(409, 'email already in use');
-        }
-
-        $user = User::register($email);
 
         // FIXME: use a secure hash/token
         return $user->id . ':' . md5($user->email);
