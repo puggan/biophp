@@ -44,6 +44,8 @@ class RouteServiceProvider extends ServiceProvider
 
                 /** @see ApiController::movie() */
                 Route::get('movie/{id}', ApiController::class . '@movie');
+                /** @see ApiController::movieShows() */
+                Route::get('movie/{id}/shows', ApiController::class . '@movieShows');
 
                 /** @see ApiController::shows() */
                 Route::get('shows', ApiController::class . '@shows');

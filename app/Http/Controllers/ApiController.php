@@ -106,6 +106,22 @@ class ApiController extends Controller
 
     /**
      * @param int $id
+     * @return C|Show[]
+     * @throws HttpException
+     */
+    public static function movieShows(int $id): C
+    {
+        /** @var Movie|null $movie */
+        $movie = Movie::query()->find($id);
+        if(!$movie) {
+            throw new HttpException(404, 'movie not found');
+        }
+
+        return $movie->shows;
+    }
+
+    /**
+     * @param int $id
      * @return Show
      * @throws HttpException
      */
