@@ -1,7 +1,7 @@
 ## PHP Backend to the react-bio project
 
 Implemented EntryPoints:
-* <a href="https://bio.tuffsruffs.se/">/</a>https://laravel.com/docs/5.8/installation#configuration
+* <a href="https://bio.tuffsruffs.se/">/</a>
 * <a href="https://bio.tuffsruffs.se/api/all">/api/all</a>
 * <a href="https://bio.tuffsruffs.se/api/auditorium/all">/api/auditorium/all</a>
 * <a href="https://bio.tuffsruffs.se/api/auditorium/1">/api/auditorium/{id}</a>
