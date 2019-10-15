@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection as C;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class User
@@ -49,6 +51,33 @@ class User extends Authenticatable
         $user = new User();
         $user->email = $email;
         $user->save();
+        return $user;
+    }
+
+    /**
+     * @param Request $request
+     * @return static
+     * @throws HttpException
+     */
+    public static function verifyRequest(Request $request): self
+    {
+        $token = (string) ($request->token ?? '');
+
+        if (empty($token)) {
+            throw new HttpException(401, 'field token is required');
+        }
+
+        // FIXME: use a secure hash/token
+        [$userId, $emailHash] = explode(':', $token, 2) + ['', ''];
+
+        /** @var self|null $user */
+        $user = User::query()->find($userId);
+
+        /** @noinspection HashTimingAttacksInspection */
+        if (!$user || !$user->email || $emailHash !== md5($user->email)) {
+            throw new HttpException(401, 'invalid token');
+        }
+
         return $user;
     }
 }

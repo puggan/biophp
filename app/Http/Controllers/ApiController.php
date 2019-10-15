@@ -197,22 +197,10 @@ class ApiController extends Controller
      */
     public static function book(Request $request): Reservation
     {
-        $token = (string) ($request->token ?? '');
         $showId = (int) ($request->show_id ?? 0);
         $seats = (int) ($request->seats ?? 0);
 
-        if (empty($token)) {
-            throw new HttpException(401, 'field token is required');
-        }
-
-        // FIXME: use a secure hash/token
-        [$userId, $emailHash] = explode(':', $token, 2) + ['', ''];
-        /** @var User|null $user */
-        $user = User::query()->find($userId);
-        /** @noinspection HashTimingAttacksInspection */
-        if (!$user || !$user->email || $emailHash !== md5($user->email)) {
-            throw new HttpException(401, 'invalid token');
-        }
+        $user = User::verifyRequest($request);
 
         if ($seats < 1) {
             throw new HttpException(400, 'invalid seats, required at least one');
