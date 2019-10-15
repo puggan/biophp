@@ -78,4 +78,15 @@ class Show extends Model
     {
         return $this->auditorium->seats_total - $this->seatsTaken();
     }
+
+    public function jsonSerialize(): array
+    {
+        $values = parent::jsonSerialize();
+        $seatsTaken = $this->seatsTaken();
+        $seatsTotal = $this->auditorium->seats_total;
+        $values['seats_total'] = $seatsTotal;
+        $values['seats_taken'] = $seatsTaken;
+        $values['seats_left'] = $seatsTotal - $seatsTaken;
+        return $values;
+    }
 }

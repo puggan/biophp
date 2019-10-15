@@ -84,7 +84,6 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('reservation/{id}', self::invalidMethodCallback(['token']));
                 //</editor-fold>
 
-
                 /** Fix Origin tests */
                 Route::options('api/{action}/{id}', static function($action, $id) {return ['ok' => true];});
             }
