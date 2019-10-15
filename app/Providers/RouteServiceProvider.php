@@ -21,7 +21,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(): void
     {
-        Route::prefix('api')->group(
+        Route::prefix('api')->middleware('json')->group(
             static function () {
                 //<editor-fold desc="Public Entities">
                 /** @see ApiController::cinemas() */
