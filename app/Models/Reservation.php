@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\JsonModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -23,8 +24,10 @@ use Illuminate\Support\Carbon;
  */
 class Reservation extends Model
 {
+    use JsonModel;
+
     protected $fillable = ['seat_count', 'first_seat_number', 'reserved_at'];
-    protected $casts = ['reserved_at' => 'datetime'];
+    protected $dates = ['reserved_at'];
     const CREATED_AT = 'reserved_at';
     const UPDATED_AT = null;
 

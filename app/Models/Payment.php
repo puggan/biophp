@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\JsonModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -19,8 +20,10 @@ use Illuminate\Support\Carbon;
  */
 class Payment extends Model
 {
+    use JsonModel;
+
     protected $fillable = ['payed_at', 'amount', 'refernece'];
-    protected $casts = ['payed_at' => 'datetime'];
+    protected $dates = ['payed_at'];
     const CREATED_AT = 'payed_at';
     const UPDATED_AT = null;
 

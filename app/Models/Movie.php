@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\JsonModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -23,8 +24,10 @@ use Illuminate\Support\Collection as C;
  */
 class Movie extends Model
 {
+    use JsonModel;
+
     protected $fillable = ['title', 'category', 'length', 'age_limit', 'description', 'language', 'premiere'];
-    protected $casts = ['premiere' => 'datetime'];
+    protected $dates = ['premiere'];
     public $timestamps = false;
 
     /**

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Traits\JsonModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,8 +26,10 @@ use Illuminate\Support\Collection as C;
  */
 class Show extends Model
 {
+    use JsonModel;
+
     protected $fillable = ['start_at', 'spoken_language', 'subtitle_language', 'seat_price'];
-    protected $casts = ['start_at' => 'datetime'];
+    protected $dates = ['start_at'];
     public $timestamps = false;
 
     /**
