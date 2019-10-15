@@ -206,6 +206,18 @@ class ApiController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return array
+     * @throws HttpException
+     */
+    public static function logout(Request $request): array
+    {
+        $user = User::verifyRequest($request);
+
+        return ['ok' => true, 'id' => $user->id];
+    }
+
+    /**
      * Book a reservation of a show
      * @param Request $request
      * @return Reservation

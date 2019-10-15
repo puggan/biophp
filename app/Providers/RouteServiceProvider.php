@@ -63,6 +63,10 @@ class RouteServiceProvider extends ServiceProvider
                 Route::post('login', ApiController::class . '@login');
                 Route::get('login', self::invalidMethodCallback(['email', 'password']));
 
+                /** @see ApiController::logout() */
+                Route::post('logout', ApiController::class . '@logout');
+                Route::get('logout', self::invalidMethodCallback(['token']));
+
                 /** @see ApiController::register() */
                 Route::post('register', ApiController::class . '@register');
                 Route::get('register', self::invalidMethodCallback(['email', 'password']));
