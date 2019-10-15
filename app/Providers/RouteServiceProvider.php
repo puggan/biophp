@@ -59,13 +59,19 @@ class RouteServiceProvider extends ServiceProvider
                 //<editor-fold desc="Actions">
                 /** @see ApiController::login() */
                 Route::post('login', ApiController::class . '@login');
+                Route::get('login', static function() {return response(['ok' => false, 'allowed method' => 'post', 'required fields' => ['email', 'password']], 405);} );
 
                 /** @see ApiController::register() */
                 Route::post('register', ApiController::class . '@register');
+                Route::get('register', static function() {return response(['ok' => false, 'allowed method' => 'post', 'required fields' => ['email', 'password']], 405);} );
 
                 /** @see ApiController::book() */
                 Route::post('book', ApiController::class . '@book');
+                Route::get('login', static function() {return response(['ok' => false, 'allowed method' => 'post', 'required fields' => ['token','show_id','seats']], 405);} );
                 //</editor-fold>
+
+                /** Fix Origin tests */
+                Route::options('api/{action}/{id}', static function($action, $id) {return ['ok' => true];});
             }
         );
 

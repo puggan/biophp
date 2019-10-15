@@ -11,6 +11,7 @@ use App\Models\Show;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as C;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * Class ApiController
@@ -36,12 +37,16 @@ class ApiController extends Controller
 
     /**
      * @param int $id
-     * @return null|Cinema
+     * @return Cinema
+     * @throws HttpException
      */
-    public static function cinema(int $id): ?Cinema
+    public static function cinema(int $id): Cinema
     {
         /** @var Cinema|null $cinema */
         $cinema = Cinema::query()->find($id);
+        if(!$cinema) {
+            throw new HttpException(404, 'cinema not found');
+        }
         return $cinema;
     }
 
@@ -55,12 +60,16 @@ class ApiController extends Controller
 
     /**
      * @param int $id
-     * @return null|Auditorium
+     * @return Auditorium
+     * @throws HttpException
      */
-    public static function auditorium(int $id): ?Auditorium
+    public static function auditorium(int $id): Auditorium
     {
         /** @var Auditorium|null $auditorium */
         $auditorium = Auditorium::query()->find($id);
+        if(!$auditorium) {
+            throw new HttpException(404, 'auditorium not found');
+        }
         return $auditorium;
     }
 
@@ -74,12 +83,16 @@ class ApiController extends Controller
 
     /**
      * @param int $id
-     * @return null|Movie
+     * @return Movie
+     * @throws HttpException
      */
-    public static function movie(int $id): ?Movie
+    public static function movie(int $id): Movie
     {
         /** @var Movie|null $movie */
         $movie = Movie::query()->find($id);
+        if(!$movie) {
+            throw new HttpException(404, 'movie not found');
+        }
         return $movie;
     }
 
@@ -93,12 +106,16 @@ class ApiController extends Controller
 
     /**
      * @param int $id
-     * @return null|Show
+     * @return Show
+     * @throws HttpException
      */
-    public static function show(int $id): ?Show
+    public static function show(int $id): Show
     {
         /** @var Show|null $show */
         $show = Show::query()->find($id);
+        if(!$show) {
+            throw new HttpException(404, 'show not found');
+        }
         return $show;
     }
 
@@ -116,24 +133,25 @@ class ApiController extends Controller
      * Login, and get a token as prof of authentication
      * @param Request $request
      * @return string
+     * @throws HttpException
      */
     public static function login(Request $request): string
     {
         $email = (string) ($request->email ?? '');
         $password = (string) ($request->password ?? '');
         if (empty($email)) {
-            throw new \RuntimeException('field email is required');
+            throw new HttpException(401, 'field email is required');
         }
         if (empty($password)) {
-            throw new \RuntimeException('field password is required');
+            throw new HttpException(401, 'field password is required');
         }
         $users = User::query()->where('email', '=', $email)->get();
         $userCount = $users->count();
-        if($userCount > 1) {
-            throw new \RuntimeException('field email is not unique');
+        if ($userCount > 1) {
+            throw new HttpException(401, 'field email is not unique');
         }
-        if($userCount < 1) {
-            throw new \RuntimeException('user not found');
+        if ($userCount < 1) {
+            throw new HttpException(401, 'user not found');
         }
 
         // FIXME: check password
@@ -148,20 +166,21 @@ class ApiController extends Controller
     /**
      * @param Request $request
      * @return string
+     * @throws HttpException
      */
     public static function register(Request $request): string
     {
         $email = (string) ($request->email ?? '');
         $password = (string) ($request->password ?? '');
         if (empty($email)) {
-            throw new \RuntimeException('field email is required');
+            throw new HttpException(400, 'field email is required');
         }
         if (empty($password)) {
-            throw new \RuntimeException('field password is required');
+            throw new HttpException(400, 'field password is required');
         }
         $userCount = User::query()->where('email', '=', $email)->get()->count();
-        if($userCount > 0) {
-            throw new \RuntimeException('email already in use');
+        if ($userCount > 0) {
+            throw new HttpException(409, 'email already in use');
         }
 
         $user = User::register($email);
@@ -174,7 +193,7 @@ class ApiController extends Controller
      * Book a reservation of a show
      * @param Request $request
      * @return Reservation
-     * @throws \RuntimeException
+     * @throws HttpException
      */
     public static function book(Request $request): Reservation
     {
@@ -183,33 +202,37 @@ class ApiController extends Controller
         $seats = (int) ($request->seats ?? 0);
 
         if (empty($token)) {
-            throw new \RuntimeException('field token is required');
-        }
-
-        if($seats < 1) {
-            throw new \RuntimeException('invalid seats, required at least one');
+            throw new HttpException(401, 'field token is required');
         }
 
         // FIXME: use a secure hash/token
-        [$userId, $emailHash] = explode(':', $token, 2) + ['',''];
+        [$userId, $emailHash] = explode(':', $token, 2) + ['', ''];
         /** @var User|null $user */
         $user = User::query()->find($userId);
         /** @noinspection HashTimingAttacksInspection */
-        if(!$user || !$user->email || $emailHash !== md5($user->email)) {
-            throw new \RuntimeException('invalid token');
+        if (!$user || !$user->email || $emailHash !== md5($user->email)) {
+            throw new HttpException(401, 'invalid token');
+        }
+
+        if ($seats < 1) {
+            throw new HttpException(400, 'invalid seats, required at least one');
         }
 
         /** @var Show|null $show */
         $show = Show::query()->find($showId);
-        if(!$show) {
-            throw new \RuntimeException('invalid show');
+        if (!$show) {
+            throw new HttpException(404, 'invalid show');
         }
 
-        if($show->start_at->timestamp < time()) {
-            throw new \RuntimeException('show already started');
+        if ($show->start_at->timestamp < time()) {
+            throw new HttpException(410, 'show already started');
         }
 
-        return Reservation::book($show, $user, $seats);
+        try {
+            return Reservation::book($show, $user, $seats);
+        } catch (\RuntimeException $exception) {
+            throw new HttpException(400, $exception->getMessage(), $exception, [], $exception->getCode());
+        }
     }
     //</editor-fold>
 }
