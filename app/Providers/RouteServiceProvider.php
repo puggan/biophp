@@ -59,16 +59,29 @@ class RouteServiceProvider extends ServiceProvider
                 //<editor-fold desc="Actions">
                 /** @see ApiController::login() */
                 Route::post('login', ApiController::class . '@login');
-                Route::get('login', static function() {return response(['ok' => false, 'allowed method' => 'post', 'required fields' => ['email', 'password']], 405);} );
+                Route::get('login', self::invalidMethodCallback(['email', 'password']));
 
                 /** @see ApiController::register() */
                 Route::post('register', ApiController::class . '@register');
-                Route::get('register', static function() {return response(['ok' => false, 'allowed method' => 'post', 'required fields' => ['email', 'password']], 405);} );
+                Route::get('register', self::invalidMethodCallback(['email', 'password']));
 
                 /** @see ApiController::book() */
                 Route::post('book', ApiController::class . '@book');
-                Route::get('book', static function() {return response(['ok' => false, 'allowed method' => 'post', 'required fields' => ['token','show_id','seats']], 405);} );
+                Route::get('book', self::invalidMethodCallback(['token','show_id','seats']));
                 //</editor-fold>
+
+                //<editor-fold desc="Private Entites">
+                /** @see ApiController::reservations() */
+                Route::post('reservations', ApiController::class . '@reservations');
+                Route::get('reservation', self::invalidMethodCallback(['token']));
+                Route::post('reservation/all', ApiController::class . '@reservations');
+                Route::get('reservations', self::invalidMethodCallback(['token']));
+
+                /** @see ApiController::reservation() */
+                Route::post('reservation/{id}', ApiController::class . '@reservation');
+                Route::get('reservation/{id}', self::invalidMethodCallback(['token']));
+                //</editor-fold>
+
 
                 /** Fix Origin tests */
                 Route::options('api/{action}/{id}', static function($action, $id) {return ['ok' => true];});
@@ -82,5 +95,13 @@ class RouteServiceProvider extends ServiceProvider
                 return '<p>See <a href="/api/cinemas">/api/cinemas</a> as an example</p>';
             }
         );
+    }
+
+
+    private static function invalidMethodCallback($requiredFields, $allowedMethods = ['POST'])
+    {
+        return static function() use ($requiredFields, $allowedMethods) {
+            return response(['ok' => false, 'allowed method' => $allowedMethods, 'required fields' => $requiredFields], 405);
+        };
     }
 }

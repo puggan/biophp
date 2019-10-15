@@ -223,4 +223,39 @@ class ApiController extends Controller
         }
     }
     //</editor-fold>
+
+    /**
+     * @param Request $request
+     * @param int $id
+     * @return Reservation
+     * @throws HttpException
+     */
+    public static function reservation(Request $request, int $id): Reservation
+    {
+        $user = User::verifyRequest($request);
+
+        /** @var Reservation|null $reservation */
+        $reservation = Reservation::query()->find($id);
+
+        if(!$reservation || $reservation->user_id !== $user->id) {
+            throw new HttpException(404, 'invalid reservation');
+        }
+
+        return $reservation;
+    }
+
+    /**
+     * @param Request $request
+     * @return C|Reservation[]
+     * @throws HttpException
+     */
+    public static function reservations(Request $request): C
+    {
+        $user = User::verifyRequest($request);
+
+        /** @var C|Reservation[] $reservations */
+        $reservations = Reservation::query()->wheres('user_id', '=', $user->id);
+
+        return $reservations;
+    }
 }
