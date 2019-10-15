@@ -224,6 +224,7 @@ class ApiController extends Controller
     }
     //</editor-fold>
 
+    //<editor-fold desc="Private Entites">
     /**
      * @param Request $request
      * @param int $id
@@ -253,9 +254,13 @@ class ApiController extends Controller
     {
         $user = User::verifyRequest($request);
 
+        $query = Reservation::query();
+        $query->where('user_id', '=', $user->id);
+
         /** @var C|Reservation[] $reservations */
-        $reservations = Reservation::query()->wheres('user_id', '=', $user->id);
+        $reservations = $query->get();
 
         return $reservations;
     }
+    //</editor-fold>
 }
