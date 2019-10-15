@@ -16,7 +16,7 @@ Implemented EntryPoints:
 * <a href="https://bio.tuffsruffs.se/api/movie/all">/api/movie/all</a> GET, JSON
 * <a href="https://bio.tuffsruffs.se/api/movies">/api/movies</a> GET, JSON
 * <a href="https://bio.tuffsruffs.se/api/register">/api/register</a> POST, string, [email, password]
-* <a href="https://bio.tuffsruffs.se/api/reservation/1">/api/reservation/{id}}</a> POST, JSON, [token]
+* <a href="https://bio.tuffsruffs.se/api/reservation/1">/api/reservation/{id}</a> POST, JSON, [token]
 * <a href="https://bio.tuffsruffs.se/api/reservation/all">/api/reservation/all</a> POST, JSON, [token]
 * <a href="https://bio.tuffsruffs.se/api/reservations">/api/reservations</a> POST, JSON, [token]
 * <a href="https://bio.tuffsruffs.se/api/show/1">/api/show/{id}</a> GET, JSON
