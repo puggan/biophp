@@ -67,7 +67,7 @@ class RouteServiceProvider extends ServiceProvider
 
                 /** @see ApiController::book() */
                 Route::post('book', ApiController::class . '@book');
-                Route::get('login', static function() {return response(['ok' => false, 'allowed method' => 'post', 'required fields' => ['token','show_id','seats']], 405);} );
+                Route::get('book', static function() {return response(['ok' => false, 'allowed method' => 'post', 'required fields' => ['token','show_id','seats']], 405);} );
                 //</editor-fold>
 
                 /** Fix Origin tests */
