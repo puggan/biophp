@@ -19,6 +19,8 @@ use Illuminate\Support\Collection as C;
  * @property int age_limit
  * @property string description
  * @property string language
+ * @property string imdb_tag
+ * @property string image_url
  * @property Carbon premiere
  * @property C|Show[] shows
  */
