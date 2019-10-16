@@ -2,6 +2,7 @@
 
 Implemented EntryPoints:
 * <a href="https://bio.tuffsruffs.se/">/</a> GET, HTML
+* <a href="https://bio.tuffsruffs.se/api/">/api</a> GET, HTML, Redirect to github
 * <a href="https://bio.tuffsruffs.se/api/all">/api/all</a> GET, JSON
 * <a href="https://bio.tuffsruffs.se/api/auditorium/1">/api/auditorium/{id}</a> GET, JSON
 * <a href="https://bio.tuffsruffs.se/api/auditorium/all">/api/auditorium/all</a> GET, JSON

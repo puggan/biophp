@@ -93,6 +93,8 @@ class RouteServiceProvider extends ServiceProvider
             }
         );
 
+        Route::get('api', static function () {return redirect('https://github.com/puggan/biophp/blob/master/readme.md');});
+
         Route::get(
             '/',
             static function () {
