@@ -49,7 +49,13 @@ class Handler extends ExceptionHandler
     public function render($request, \Exception $exception)
     {
         if($exception instanceof \RuntimeException && !$exception instanceof HttpExceptionInterface) {
-            $exception = new HttpException(500, $exception->getMessage(), $exception, [], $exception->getCode());
+            $code = $exception->getCode();
+            if (is_numeric($code)) {
+                $code = (int) $code;
+            } else {
+                $code = null;
+            }
+            $exception = new HttpException(500, $exception->getMessage(), $exception, [], $code);
         }
         return parent::render($request, $exception);
     }
