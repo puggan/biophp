@@ -9,7 +9,9 @@ use App\Models\Movie;
 use App\Models\Reservation;
 use App\Models\Show;
 use App\Models\User;
+use App\Services\MovieDB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection as C;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -44,7 +46,7 @@ class ApiController extends Controller
     {
         /** @var Cinema|null $cinema */
         $cinema = Cinema::query()->find($id);
-        if(!$cinema) {
+        if (!$cinema) {
             throw new HttpException(404, 'cinema not found');
         }
         return $cinema;
@@ -67,7 +69,7 @@ class ApiController extends Controller
     {
         /** @var Auditorium|null $auditorium */
         $auditorium = Auditorium::query()->find($id);
-        if(!$auditorium) {
+        if (!$auditorium) {
             throw new HttpException(404, 'auditorium not found');
         }
         return $auditorium;
@@ -90,7 +92,7 @@ class ApiController extends Controller
     {
         /** @var Movie|null $movie */
         $movie = Movie::query()->find($id);
-        if(!$movie) {
+        if (!$movie) {
             throw new HttpException(404, 'movie not found');
         }
         return $movie;
@@ -113,7 +115,7 @@ class ApiController extends Controller
     {
         /** @var Movie|null $movie */
         $movie = Movie::query()->find($id);
-        if(!$movie) {
+        if (!$movie) {
             throw new HttpException(404, 'movie not found');
         }
 
@@ -129,7 +131,7 @@ class ApiController extends Controller
     {
         /** @var Show|null $show */
         $show = Show::query()->find($id);
-        if(!$show) {
+        if (!$show) {
             throw new HttpException(404, 'show not found');
         }
         return $show;
@@ -266,7 +268,7 @@ class ApiController extends Controller
         /** @var Reservation|null $reservation */
         $reservation = Reservation::query()->find($id);
 
-        if(!$reservation || $reservation->user_id !== $user->id) {
+        if (!$reservation || $reservation->user_id !== $user->id) {
             throw new HttpException(404, 'invalid reservation');
         }
 
