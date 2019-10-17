@@ -220,6 +220,38 @@ class ApiController extends Controller
     }
 
     /**
+     * @param MovieDB $movieDB
+     * @param string $id
+     * @return Movie|null
+     * @throws \RuntimeException
+     */
+    public static function import(MovieDB $movieDB, string $id)
+    {
+        /** @var Movie|null $movie */
+        $movie = Movie::query()->where('imdb_tag', '=', $id)->first();
+        if (!$movie) {
+            $movie = new Movie();
+            $movie->imdb_tag = $id;
+        }
+
+        $externalMovie = $movieDB->imdb($id);
+
+        $movie->title = $externalMovie->title;
+        //$movie->category = $externalMovie->category;
+        //$movie->length = $externalMovie->lenght;
+        $movie->age_limit = $externalMovie->adult ? 15 : 3;
+        $movie->description = $externalMovie->overview;
+        //$movie->language = $externalMovie->language;
+        $movie->image_url = $externalMovie->poster_path;
+        try {
+            $movie->premiere = new Carbon($externalMovie->release_date);
+        } catch (\Exception $ignore) {
+        }
+        $movie->save();
+        return $movie;
+    }
+
+    /**
      * Book a reservation of a show
      * @param Request $request
      * @return Reservation
