@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Traits;
+global $json_model_encoding_active;
 
 trait JsonModel
 {
-    private $json_encoding_active = false;
     abstract public function toArray() /*: array*/ ;
 
     /**
@@ -12,14 +12,16 @@ trait JsonModel
      */
     public function jsonSerialize(): array
     {
-        $this->json_encoding_active = true;
+        global $json_model_encoding_active;
+        $json_model_encoding_active = true;
         $values = parent::jsonSerialize();
-        $this->json_encoding_active = false;
+        $json_model_encoding_active = false;
         return $values;
     }
 
     protected function serializeDate(\DateTimeInterface $date) {
-        if ($this->json_encoding_active) {
+        global $json_model_encoding_active;
+        if ($json_model_encoding_active) {
             return $date->getTimestamp() * 1000;
         }
         return parent::serializeDate($date);
