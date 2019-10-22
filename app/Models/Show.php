@@ -26,7 +26,9 @@ use Illuminate\Support\Collection as C;
  */
 class Show extends Model
 {
-    use JsonModel;
+    use JsonModel {
+        JsonModel::jsonSerialize as jsonSerializeTrait;
+    }
 
     protected $fillable = ['start_at', 'spoken_language', 'subtitle_language', 'seat_price'];
     protected $dates = ['start_at'];
@@ -81,7 +83,7 @@ class Show extends Model
 
     public function jsonSerialize(): array
     {
-        $values = parent::jsonSerialize();
+        $values = $this->jsonSerializeTrait();
         $seatsTaken = $this->seatsTaken();
         $seatsTotal = $this->auditorium->seats_total;
         $values['seats_total'] = $seatsTotal;
