@@ -241,8 +241,8 @@ class ApiController extends Controller
         //$movie->length = $externalMovie->lenght;
         $movie->age_limit = $externalMovie->adult ? 15 : 3;
         $movie->description = $externalMovie->overview;
-        //$movie->language = $externalMovie->language;
-        $movie->image_url = $externalMovie->poster_path;
+        $movie->language = $externalMovie->original_language;
+        $movie->image_url = "https://image.tmdb.org/t/p/w185_and_h278_bestv2/{$externalMovie->poster_path}";
         try {
             $movie->premiere = new Carbon($externalMovie->release_date);
         } catch (\Exception $ignore) {
