@@ -298,7 +298,7 @@ class ApiController extends Controller
         $user = User::verifyRequest($request);
 
         /** @var Reservation|null $reservation */
-        $reservation = Reservation::query()->find($id);
+        $reservation = Reservation::query()->with('show.movie')->find($id);
 
         if (!$reservation || $reservation->user_id !== $user->id) {
             throw new HttpException(404, 'invalid reservation');
@@ -320,7 +320,7 @@ class ApiController extends Controller
         $query->where('user_id', '=', $user->id);
 
         /** @var C|Reservation[] $reservations */
-        $reservations = $query->get();
+        $reservations = $query->with('show.movie')->get();
 
         return $reservations;
     }
