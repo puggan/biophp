@@ -16,7 +16,7 @@ class JsonResponse implements \JsonSerializable
      */
     public function jsonSerialize()
     {
-        return json_encode($this->data, JSON_THROW_ON_ERROR, 512);
+        return $this->data;
     }
 
     public function __get($name)
