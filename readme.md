@@ -8,6 +8,7 @@ Implemented EntryPoints:
 * <a href="https://bio.tuffsruffs.se/api/auditorium/all">/api/auditorium/all</a> GET, JSON
 * <a href="https://bio.tuffsruffs.se/api/auditoriums">/api/auditoriums</a> GET, JSON
 * <a href="https://bio.tuffsruffs.se/api/book">/api/book</a> POST, JSON, ['token','show_id','seats']
+* <a href="https://bio.tuffsruffs.se/api/book">/api/book</a> POST, JSON, ['email','show_id','seats']
 * <a href="https://bio.tuffsruffs.se/api/cinema/1">/api/cinema/{id}</a> GET, JSON
 * <a href="https://bio.tuffsruffs.se/api/cinema/all">/api/cinema/all</a> GET, JSON
 * <a href="https://bio.tuffsruffs.se/api/cinemas">/api/cinemas</a> GET, JSON

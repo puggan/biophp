@@ -80,4 +80,22 @@ class User extends Authenticatable
 
         return $user;
     }
+
+    /**
+     * @param string $email
+     * @return static|null
+     * @throws \RuntimeException
+     */
+    public static function getByEmail(string $email): self
+    {
+        $users = self::query()->where('email', '=', $email)->get();
+        $userCount = $users->count();
+        if ($userCount > 1) {
+            throw new \RuntimeException('Email found on more then one user');
+        }
+        if ($userCount < 1) {
+            return null;
+        }
+        return $users[0];
+    }
 }

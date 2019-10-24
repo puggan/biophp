@@ -163,8 +163,12 @@ class ApiController extends Controller
         if (empty($password)) {
             throw new HttpException(400, 'field password is required');
         }
-        $userCount = User::query()->where('email', '=', $email)->get()->count();
-        if ($userCount > 0) {
+        try {
+            $user = User::getByEmail($email);
+        } catch (\RuntimeException $exception) {
+            throw new HttpException(409, 'email already in use', $exception);
+        }
+        if($user) {
             throw new HttpException(409, 'email already in use');
         }
 
@@ -191,19 +195,16 @@ class ApiController extends Controller
         if (empty($password)) {
             throw new HttpException(401, 'field password is required');
         }
-        $users = User::query()->where('email', '=', $email)->get();
-        $userCount = $users->count();
-        if ($userCount > 1) {
-            throw new HttpException(401, 'field email is not unique');
+        try {
+            $user = User::getByEmail($email);
+        } catch (\RuntimeException $exception) {
+            throw new HttpException(401, 'field email is not unique', $exception);
         }
-        if ($userCount < 1) {
+        if(!$user) {
             throw new HttpException(401, 'user not found');
         }
 
         // FIXME: check password
-
-        /** @var User $user */
-        $user = $users[0];
 
         // FIXME: use a secure hash/token
         $token = $user->id . ':' . md5($user->email);
@@ -265,7 +266,20 @@ class ApiController extends Controller
         $showId = (int) ($request->show_id ?? 0);
         $seats = (int) ($request->seats ?? 0);
 
-        $user = User::verifyRequest($request);
+        $email = (string) ($request->email ?? '');
+
+        if($email) {
+            try {
+                $user = User::getByEmail($email);
+            } catch (\RuntimeException $exception) {
+                throw new HttpException(401, 'field email is not unique', $exception);
+            }
+            if(!$user) {
+                $user = User::register($email);
+            }
+        } else {
+            $user = User::verifyRequest($request);
+        }
 
         if ($seats < 1) {
             throw new HttpException(400, 'invalid seats, required at least one');
