@@ -86,7 +86,7 @@ class User extends Authenticatable
      * @return static|null
      * @throws \RuntimeException
      */
-    public static function getByEmail(string $email): self
+    public static function getByEmail(string $email): ?self
     {
         $users = self::query()->where('email', '=', $email)->get();
         $userCount = $users->count();
