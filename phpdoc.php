@@ -2,6 +2,19 @@
 
 namespace PHPDoc\MovieDB {
     /**
+     * Class UserWithToken
+     * @package PHPDoc\MovieDB
+     * @property int id
+     * @property string token
+     * @property string email
+     */
+    class UserWithToken {
+
+    }
+}
+
+namespace PHPDoc {
+    /**
      * Class FindResult
      * @package PHPDoc\MovieDB
      *

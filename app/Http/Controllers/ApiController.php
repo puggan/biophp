@@ -149,10 +149,10 @@ class ApiController extends Controller
     //<editor-fold desc="Actions">
     /**
      * @param Request $request
-     * @return string
+     * @return \stdClass|\PHPDoc\UserWithToken
      * @throws HttpException
      */
-    public static function register(Request $request): string
+    public static function register(Request $request): \stdClass
     {
         $email = (string) ($request->email ?? '');
         $password = (string) ($request->password ?? '');
@@ -170,16 +170,17 @@ class ApiController extends Controller
         $user = User::register($email);
 
         // FIXME: use a secure hash/token
-        return $user->id . ':' . md5($user->email);
+        $token = $user->id . ':' . md5($user->email);
+        return (object) ['id' => $user->id, 'token' => $token, 'email' => $user->email];
     }
 
     /**
      * Login, and get a token as prof of authentication
      * @param Request $request
-     * @return string
+     * @return \stdClass|\PHPDoc\UserWithToken
      * @throws HttpException
      */
-    public static function login(Request $request): string
+    public static function login(Request $request): \stdClass
     {
         $email = (string) ($request->email ?? '');
         $password = (string) ($request->password ?? '');
@@ -204,7 +205,8 @@ class ApiController extends Controller
         $user = $users[0];
 
         // FIXME: use a secure hash/token
-        return $user->id . ':' . md5($user->email);
+        $token = $user->id . ':' . md5($user->email);
+        return (object) ['id' => $user->id, 'token' => $token, 'email' => $user->email];
     }
 
     /**
