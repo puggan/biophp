@@ -1,0 +1,6 @@
+//CMD
+//cd C:\Git_Projects\BioBokning\BioBokning\my_bookinga_app\src
+//npm start
+
+
+https://github.com/puggan/biophp

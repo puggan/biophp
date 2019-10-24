@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2efa56b6.chunk.css",
+    "main.js": "/static/js/main.9528b867.chunk.js",
+    "main.js.map": "/static/js/main.9528b867.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.785debff.js",
+    "runtime-main.js.map": "/static/js/runtime-main.785debff.js.map",
+    "static/js/2.8bf756cc.chunk.js": "/static/js/2.8bf756cc.chunk.js",
+    "static/js/2.8bf756cc.chunk.js.map": "/static/js/2.8bf756cc.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.8a37f4b853e82bf030f362f6a9759cb7.js": "/precache-manifest.8a37f4b853e82bf030f362f6a9759cb7.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.2efa56b6.chunk.css.map": "/static/css/main.2efa56b6.chunk.css.map",
+    "static/media/Header.css": "/static/media/Confetty_Photo_by_Jason_Leung_on_Unsplash.4e044ba3.jpg",
+    "static/media/index.css": "/static/media/backgrund_popcorn_Photo_by_twinsfisch_on_Unsplash.f657f2f9.jpg"
+  }
+}
