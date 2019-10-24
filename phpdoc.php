@@ -8,7 +8,7 @@ namespace PHPDoc\MovieDB {
      * @property string token
      * @property string email
      */
-    class UserWithToken {
+    class UserWithToken extends \App\Services\JsonResponse {
 
     }
 }

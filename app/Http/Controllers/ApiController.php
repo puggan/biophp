@@ -9,6 +9,7 @@ use App\Models\Movie;
 use App\Models\Reservation;
 use App\Models\Show;
 use App\Models\User;
+use App\Services\JsonResponse;
 use App\Services\MovieDB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -149,10 +150,10 @@ class ApiController extends Controller
     //<editor-fold desc="Actions">
     /**
      * @param Request $request
-     * @return \stdClass|\PHPDoc\UserWithToken
+     * @return JsonResponse|\PHPDoc\UserWithToken
      * @throws HttpException
      */
-    public static function register(Request $request): \stdClass
+    public static function register(Request $request): JsonResponse
     {
         $email = (string) ($request->email ?? '');
         $password = (string) ($request->password ?? '');
@@ -171,16 +172,16 @@ class ApiController extends Controller
 
         // FIXME: use a secure hash/token
         $token = $user->id . ':' . md5($user->email);
-        return (object) ['id' => $user->id, 'token' => $token, 'email' => $user->email];
+        return new JsonResponse((object) ['id' => $user->id, 'token' => $token, 'email' => $user->email]);
     }
 
     /**
      * Login, and get a token as prof of authentication
      * @param Request $request
-     * @return \stdClass|\PHPDoc\UserWithToken
+     * @return JsonResponse|\PHPDoc\UserWithToken
      * @throws HttpException
      */
-    public static function login(Request $request): \stdClass
+    public static function login(Request $request): JsonResponse
     {
         $email = (string) ($request->email ?? '');
         $password = (string) ($request->password ?? '');
@@ -206,7 +207,7 @@ class ApiController extends Controller
 
         // FIXME: use a secure hash/token
         $token = $user->id . ':' . md5($user->email);
-        return (object) ['id' => $user->id, 'token' => $token, 'email' => $user->email];
+        return new JsonResponse((object) ['id' => $user->id, 'token' => $token, 'email' => $user->email]);
     }
 
     /**
